@@ -1,0 +1,12 @@
+
+# Ignore IntelliJ Settings
+.idea/
+*.iml
+
+# Ignore compiled class files
+out/
+target/
+
+# Ignore OS files
+.DS_Store
+Thumbs.db

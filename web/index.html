@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExamAI Console</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+
+<div class="app-layout">
+
+    <aside class="sidebar">
+        <div class="logo">
+            <span class="material-icons">school</span>
+            <h2>ExamAI</h2>
+        </div>
+
+        <nav class="nav-links">
+            <a href="#" onclick="showTab('dashboard')" class="nav-item active" id="link-dashboard">
+                <span class="material-icons">dashboard</span> Dashboard
+            </a>
+            <a href="#" onclick="showTab('config')" class="nav-item" id="link-config">
+                <span class="material-icons">settings</span> Configuration
+            </a>
+            <a href="#" onclick="showTab('map')" class="nav-item" id="link-map">
+                <span class="material-icons">grid_view</span> Seating Map
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button onclick="resetSystem()" class="btn-danger">
+                <span class="material-icons">restart_alt</span> Reset All
+            </button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+
+        <header>
+            <h2 id="page-title">Dashboard</h2>
+            <div class="user-profile">
+                <span>Admin User</span>
+                <span class="material-icons">account_circle</span>
+            </div>
+        </header>
+
+        <div id="tab-dashboard" class="tab-content">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon blue"><span class="material-icons">meeting_room</span></div>
+                    <div class="stat-info">
+                        <h3>Total Rooms</h3>
+                        <h1 id="stat-rooms">0</h1>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon green"><span class="material-icons">event_seat</span></div>
+                    <div class="stat-info">
+                        <h3>Total Capacity</h3>
+                        <h1 id="stat-capacity">0</h1>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon purple"><span class="material-icons">groups</span></div>
+                    <div class="stat-info">
+                        <h3>Students Registered</h3>
+                        <h1 id="stat-students">0</h1>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon orange"><span class="material-icons">check_circle</span></div>
+                    <div class="stat-info">
+                        <h3>Allocated Seats</h3>
+                        <h1 id="stat-allocated">0</h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="welcome-card">
+                <h3>Welcome to ExamAI</h3>
+                <p>This system uses a Hill Climbing AI algorithm to optimize student seating, ensuring minimal cheating risk by separating branches.</p>
+                <button onclick="showTab('config')" class="btn-primary">Start Configuration</button>
+            </div>
+        </div>
+
+        <div id="tab-config" class="tab-content hidden">
+            <div class="config-container">
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3><span class="material-icons">room</span> 1. Add Exam Halls</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="room-inputs"></div>
+                        <button onclick="addRoomRow()" class="btn-text">+ Add Another Room</button>
+                        <button onclick="saveRooms()" class="btn-primary full-width">Save Rooms</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3><span class="material-icons">person_add</span> 2. Register Batches</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="student-inputs"></div>
+                        <button onclick="addStudentRow()" class="btn-text">+ Add Another Batch</button>
+                        <button onclick="saveStudents()" class="btn-primary full-width">Save Students</button>
+                    </div>
+                </div>
+
+                <div class="card highlight-card">
+                    <div class="card-body center">
+                        <h3>Ready to Allocate?</h3>
+                        <p>The AI will process all registered students and rooms.</p>
+                        <button onclick="runAI()" class="btn-success huge">
+                            <span class="material-icons">auto_fix_high</span> Run AI Allocation
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="tab-map" class="tab-content hidden">
+            <div class="map-controls">
+                <button onclick="loadMap()" class="btn-secondary"><span class="material-icons">refresh</span> Refresh Map</button>
+                <button onclick="window.print()" class="btn-text"><span class="material-icons">print</span> Print</button>
+            </div>
+
+            <div id="map-grid" class="map-grid">
+                <div class="empty-state">
+                    <span class="material-icons">info</span>
+                    <p>No allocation generated yet. Go to Configuration.</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
