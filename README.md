@@ -34,7 +34,7 @@ I structured the code using strict OOP principles to keep it clean and scalable:
 * **Strategy Pattern:** The allocation logic is modular. I can swap between a "Greedy" algorithm or an "AI" algorithm without breaking the app.
 * **Service Layer:** The `AllocationService` acts as the brain, coordinating between the database and the algorithms.
 
-#### 2. The AI Logic 
+#### 2. The AI Logic
 The seating isn't random. I implemented a local search algorithm that:
 1.  Places students in seats.
 2.  Calculates a "Risk Score" based on neighbors (e.g., Two CSE students sitting together = High Risk).
