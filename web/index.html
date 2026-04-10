@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ExamAI Console</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ExamAI — Seating Allocation System</title>
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 </head>
 <body>
 
 <div class="app-layout">
 
+    <!-- ── Sidebar ─────────────────────────────────────────────────────────── -->
     <aside class="sidebar">
         <div class="logo">
             <span class="material-icons">school</span>
@@ -20,103 +21,140 @@
 
         <nav class="nav-links">
             <a href="#" onclick="showTab('dashboard')" class="nav-item active" id="link-dashboard">
-                <span class="material-icons">dashboard</span> Dashboard
+                <span class="material-icons">dashboard</span>
+                <span>Dashboard</span>
             </a>
             <a href="#" onclick="showTab('config')" class="nav-item" id="link-config">
-                <span class="material-icons">settings</span> Configuration
+                <span class="material-icons">settings</span>
+                <span>Configuration</span>
             </a>
             <a href="#" onclick="showTab('map')" class="nav-item" id="link-map">
-                <span class="material-icons">grid_view</span> Seating Map
+                <span class="material-icons">grid_view</span>
+                <span>Seating Map</span>
             </a>
         </nav>
 
         <div class="sidebar-footer">
             <button onclick="resetSystem()" class="btn-danger">
-                <span class="material-icons">restart_alt</span> Reset All
+                <span class="material-icons">restart_alt</span>
+                <span>Reset All</span>
             </button>
         </div>
     </aside>
 
+    <!-- ── Main Content ────────────────────────────────────────────────────── -->
     <main class="main-content">
 
         <header>
             <h2 id="page-title">Dashboard</h2>
             <div class="user-profile">
-                <span>Admin User</span>
+                <span>Admin</span>
                 <span class="material-icons">account_circle</span>
             </div>
         </header>
 
+        <!-- ── Tab: Dashboard ──────────────────────────────────────────────── -->
         <div id="tab-dashboard" class="tab-content">
+
+            <!-- Stats cards -->
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-icon blue"><span class="material-icons">meeting_room</span></div>
-                    <div class="stat-info">
-                        <h3>Total Rooms</h3>
-                        <h1 id="stat-rooms">0</h1>
-                    </div>
+                    <div class="stat-info"><h3>Total Rooms</h3><h1 id="stat-rooms">—</h1></div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon green"><span class="material-icons">event_seat</span></div>
-                    <div class="stat-info">
-                        <h3>Total Capacity</h3>
-                        <h1 id="stat-capacity">0</h1>
-                    </div>
+                    <div class="stat-info"><h3>Total Capacity</h3><h1 id="stat-capacity">—</h1></div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon purple"><span class="material-icons">groups</span></div>
-                    <div class="stat-info">
-                        <h3>Students Registered</h3>
-                        <h1 id="stat-students">0</h1>
-                    </div>
+                    <div class="stat-info"><h3>Students Registered</h3><h1 id="stat-students">—</h1></div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon orange"><span class="material-icons">check_circle</span></div>
-                    <div class="stat-info">
-                        <h3>Allocated Seats</h3>
-                        <h1 id="stat-allocated">0</h1>
-                    </div>
+                    <div class="stat-info"><h3>Allocated Seats</h3><h1 id="stat-allocated">—</h1></div>
                 </div>
             </div>
 
+            <!-- Welcome card -->
             <div class="welcome-card">
                 <h3>Welcome to ExamAI</h3>
-                <p>This system uses a Hill Climbing AI algorithm to optimize student seating, ensuring minimal cheating risk by separating branches.</p>
-                <button onclick="showTab('config')" class="btn-primary">Start Configuration</button>
+                <p>
+                    This system uses a <strong>Hill Climbing optimisation algorithm</strong> to generate
+                    anti-cheating seating plans. Students from the same branch are never placed adjacent
+                    to each other.
+                </p>
+                <button onclick="showTab('config')" class="btn-primary">Get Started →</button>
             </div>
+
+            <!-- AI Insight Panel (populated by runAnalysis() after allocation) -->
+            <div class="ai-panel" id="ai-insight-wrapper" style="display:none">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+                    <strong style="display:flex;align-items:center;gap:8px">
+                        <span class="material-icons" style="color:var(--primary)">psychology</span>
+                        AI Seating Analysis
+                    </strong>
+                    <button onclick="runAnalysis()" class="btn-text" style="font-size:0.8rem">↻ Re-analyse</button>
+                </div>
+                <div id="ai-insight">
+                    <p style="color:var(--text-muted);font-size:0.9rem">
+                        Run the allocation first, then click "Analyse" to get AI insights.
+                    </p>
+                </div>
+            </div>
+
         </div>
 
+        <!-- ── Tab: Configuration ─────────────────────────────────────────── -->
         <div id="tab-config" class="tab-content hidden">
             <div class="config-container">
 
+                <!-- Step 1: Rooms -->
                 <div class="card">
                     <div class="card-header">
-                        <h3><span class="material-icons">room</span> 1. Add Exam Halls</h3>
+                        <h3><span class="material-icons">room</span> Step 1 — Add Exam Halls</h3>
                     </div>
                     <div class="card-body">
+                        <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:12px">
+                            Enter room name, number of rows, and columns.
+                            Capacity = rows × cols.
+                        </p>
                         <div id="room-inputs"></div>
-                        <button onclick="addRoomRow()" class="btn-text">+ Add Another Room</button>
+                        <button onclick="addRoomRow()" class="btn-text">+ Add another room</button>
                         <button onclick="saveRooms()" class="btn-primary full-width">Save Rooms</button>
                     </div>
                 </div>
 
+                <!-- Step 2: Students -->
                 <div class="card">
                     <div class="card-header">
-                        <h3><span class="material-icons">person_add</span> 2. Register Batches</h3>
+                        <h3><span class="material-icons">person_add</span> Step 2 — Register Batches</h3>
                     </div>
                     <div class="card-body">
+                        <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:12px">
+                            Enter branch code, start roll number, end roll number.
+                            e.g. <code>CSE, 1, 30</code> creates CSE-1 to CSE-30.
+                        </p>
                         <div id="student-inputs"></div>
-                        <button onclick="addStudentRow()" class="btn-text">+ Add Another Batch</button>
+                        <button onclick="addStudentRow()" class="btn-text">+ Add another batch</button>
                         <button onclick="saveStudents()" class="btn-primary full-width">Save Students</button>
                     </div>
                 </div>
 
+                <!-- Step 3: Allocate -->
                 <div class="card highlight-card">
                     <div class="card-body center">
-                        <h3>Ready to Allocate?</h3>
-                        <p>The AI will process all registered students and rooms.</p>
+            <span class="material-icons" style="font-size:3rem;color:var(--primary);margin-bottom:8px">
+              auto_fix_high
+            </span>
+                        <h3 style="margin-bottom:8px">Step 3 — Run AI Allocation</h3>
+                        <p style="font-size:0.9rem;color:var(--text-muted);margin-bottom:20px;max-width:280px;margin-left:auto;margin-right:auto">
+                            Hill Climbing will optimise seat assignments across all rooms to
+                            minimise same-branch adjacency.
+                        </p>
                         <button onclick="runAI()" class="btn-success huge">
-                            <span class="material-icons">auto_fix_high</span> Run AI Allocation
+                            <span class="material-icons">play_arrow</span>
+                            Run AI Allocation
                         </button>
                     </div>
                 </div>
@@ -124,23 +162,46 @@
             </div>
         </div>
 
+        <!-- ── Tab: Seating Map ───────────────────────────────────────────── -->
         <div id="tab-map" class="tab-content hidden">
+
             <div class="map-controls">
-                <button onclick="loadMap()" class="btn-secondary"><span class="material-icons">refresh</span> Refresh Map</button>
-                <button onclick="window.print()" class="btn-text"><span class="material-icons">print</span> Print</button>
+                <button onclick="loadMap()" class="btn-secondary">
+                    <span class="material-icons" style="font-size:1rem;vertical-align:middle">refresh</span>
+                    Refresh
+                </button>
+                <button onclick="window.print()" class="btn-secondary">
+                    <span class="material-icons" style="font-size:1rem;vertical-align:middle">print</span>
+                    Print
+                </button>
+                <button onclick="showAIPanel()" class="btn-secondary">
+                    <span class="material-icons" style="font-size:1rem;vertical-align:middle">psychology</span>
+                    AI Analyse
+                </button>
             </div>
 
-            <div id="map-grid" class="map-grid">
+            <!-- Room sections rendered here by app.js buildRoomSection() -->
+            <div id="map-grid">
                 <div class="empty-state">
                     <span class="material-icons">info</span>
-                    <p>No allocation generated yet. Go to Configuration.</p>
+                    <p>No allocation generated yet. Go to Configuration → Run AI Allocation.</p>
                 </div>
             </div>
+
         </div>
 
     </main>
 </div>
 
 <script src="app.js"></script>
+<script>
+    // Show the AI panel on the dashboard and trigger analysis
+    function showAIPanel() {
+      document.getElementById('ai-insight-wrapper').style.display = 'block';
+      showTab('dashboard');
+      runAnalysis();
+    }
+</script>
+
 </body>
 </html>
